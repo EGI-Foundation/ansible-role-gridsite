@@ -4,6 +4,12 @@
     state: latest
   with_items: "{{ prerequisites[(ansible_os_family | lower)] }}"
 
+- name: Create socache DBM file
+  file:
+    path: /var/cache/mod_ssl
+    state: directory
+  when: (ansible_os_family | lower) == 'redhat'
+
 - name: Configure httpd.conf
   template:
     src: templates/httpd.conf.j2
