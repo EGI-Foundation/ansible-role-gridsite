@@ -1,0 +1,12 @@
+- name: Install dependencies
+  package:
+    name: "{{ item }}"
+    with_items: "{{ prerequisites[(ansible_os_family | lower)] }}"
+
+- name: Configure httpd.conf
+  template:
+    src: templates/httpd.conf.j2
+    dest: "{{ httpd_conf[(ansible_os_family | lower)] }}"
+    owner: root
+    group: root
+    mode: 0644

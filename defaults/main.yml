@@ -1,0 +1,11 @@
+---
+prerequisites:
+  redhat:
+    - httpd
+    - mod-ssl
+    - gridsite
+    - gridsite-service-clients
+    - gridsite-commands
+
+httpd_conf:
+  redhat: "/etc/httpd/conf/httpd.conf"
