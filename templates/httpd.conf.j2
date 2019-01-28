@@ -13,8 +13,10 @@ LoadModule ssl_module           /usr/lib64/httpd/modules/mod_ssl.so
 LoadModule gridsite_module      /usr/lib64/httpd/modules/mod_gridsite.so
 LoadModule mime_module          /usr/lib64/httpd/modules/mod_mime.so
 LoadModule dir_module           /usr/lib64/httpd/modules/mod_dir.so
-LoadModule mpm_prefork_module           /usr/lib64/httpd/modules/mod_mpm_prefork.so
+{% if ansible_distribution_major_version == 7 %}
+LoadModule mpm_prefork_module   /usr/lib64/httpd/modules/mod_mpm_prefork.so
 Include conf.modules.d/*.conf
+{% endif %}
 TypesConfig /etc/mime.types
 
 # User and group who will own files created by Apache
