@@ -1,7 +1,8 @@
 - name: Install dependencies
   package:
     name: "{{ item }}"
-    with_items: "{{ prerequisites[(ansible_os_family | lower)] }}"
+    state: latest
+  with_items: "{{ prerequisites[(ansible_os_family | lower)] }}"
 
 - name: Configure httpd.conf
   template:
