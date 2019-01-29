@@ -1,0 +1,2 @@
+# Depends: ssl
+LoadModule gridsite_module /usr/lib/apache2/modules/mod_gridsite.so

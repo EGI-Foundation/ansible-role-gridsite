@@ -6,5 +6,13 @@ prerequisites:
     - gridsite
     - gridsite-service-clients
     - gridsite-commands
-httpd_conf:
-  redhat: "/etc/httpd/conf/httpd.conf"
+  debian:
+    - apache2
+    - apache2-bin
+    - gridsite
+    - gridsite-service-clients
+    - gridsite-commands
+
+httpd_srv:
+  redhat: "httpd"
+  debian: "apache2"

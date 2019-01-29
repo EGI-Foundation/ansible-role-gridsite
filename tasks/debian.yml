@@ -1,0 +1,21 @@
+---
+- name: Copy gridsite module configuration
+  copy: src=files/mods-available/{{ item }} dest=/etc/apache2/mods-available/
+  with_items:
+    - zgridsite.load
+    - zgridsite.conf
+
+- name: Copy gridsite site configuration
+  copy: src=files/sites-available/{{ item }} dest=/etc/apache2/sites-available/
+  with_items:
+    - gridsite.conf
+
+- name: Enable gridsite module
+  apache2_module:
+    state: present
+    name: zgridsite
+
+- name: Enable site gridsite
+  command: a2ensite gridsite
+  notify:
+    - restart apache
