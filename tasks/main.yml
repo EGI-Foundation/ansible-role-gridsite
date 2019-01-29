@@ -1,24 +1,18 @@
+- name: Check mandatory variables
+  assert:
+    that:
+      - distribution is defined
+
 - name: Install dependencies
   package:
     name: "{{ item }}"
     state: latest
   with_items: "{{ prerequisites[(ansible_os_family | lower)] }}"
 
-- name: Create socache DBM file
-  file:
-    path: /var/cache/mod_ssl
-    state: directory
-  when: (ansible_os_family | lower) == 'redhat'
-
-- name: Configure httpd.conf
-  template:
-    src: templates/httpd.conf.j2
-    dest: "{{ httpd_conf[(ansible_os_family | lower)] }}"
-    owner: root
-    group: root
-    mode: 0644
+- name: Deploy OS-specific
+  include: "{{(ansible_os_family | lower)}}.yml"
 
 - name: Start service httpd, if not started
   service:
-    name: httpd
+    name: "{{ httpd_srv[(ansible_os_family | lower)] }}"
     state: started

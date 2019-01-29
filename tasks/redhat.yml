@@ -1,0 +1,15 @@
+---
+- name: Create socache DBM file
+  file:
+    path: /var/cache/mod_ssl
+    state: directory
+
+- name: Configure httpd.conf
+  template:
+    src: templates/httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart apache
