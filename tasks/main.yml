@@ -3,6 +3,7 @@
   assert:
     that:
       - distribution is defined
+      - release is defined
 
 - name: Install dependencies
   package:
@@ -17,3 +18,4 @@
   service:
     name: "{{ httpd_srv[(ansible_os_family | lower)] }}"
     state: started
+  when: ansible_virtualization_type != 'docker'
