@@ -11,5 +11,6 @@
     owner: root
     group: root
     mode: 0644
+    validate: apachectl configtest
   notify:
     - restart apache

@@ -1,12 +1,14 @@
+---
 - name: Check mandatory variables
   assert:
     that:
       - distribution is defined
+      - release is defined
 
 - name: Install dependencies
   package:
     name: "{{ item }}"
-    state: latest
+    state: present
   with_items: "{{ prerequisites[(ansible_os_family | lower)] }}"
 
 - name: Deploy OS-specific
@@ -16,3 +18,4 @@
   service:
     name: "{{ httpd_srv[(ansible_os_family | lower)] }}"
     state: started
+  when: ansible_virtualization_type != 'docker'
