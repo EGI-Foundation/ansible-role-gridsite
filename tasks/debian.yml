@@ -11,9 +11,9 @@
     - gridsite.conf
 
 - name: Enable gridsite module
-  apache2_module:
-    state: present
-    name: zgridsite
+  command: a2enmod zgridsite
+  notify:
+    - restart apache
 
 - name: Enable site gridsite
   command: a2ensite gridsite
