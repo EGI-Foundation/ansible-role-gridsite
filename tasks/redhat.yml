@@ -4,13 +4,13 @@
     path: /var/cache/mod_ssl
     state: directory
 
-- name: Configure httpd.conf
+- name: Configure gridsite.conf
   template:
     src: templates/httpd.conf.d.j2
     dest: /etc/httpd/conf.d/gridsite.conf
     owner: root
     group: root
     mode: 0644
-    validate: apachectl configtest
+    validate: "httpd -t -f %s"
   notify:
     - restart apache

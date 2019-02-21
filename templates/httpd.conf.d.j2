@@ -1,3 +1,7 @@
+{% if ansible_distribution_major_version == '7' %}
+# only needed for Ansible template validation
+Include conf.modules.d/*.conf
+{% endif %}
 LoadModule ssl_module		/usr/lib64/httpd/modules/mod_ssl.so
 LoadModule gridsite_module	/usr/lib64/httpd/modules/mod_gridsite.so
 
