@@ -20,7 +20,7 @@ def test_packages(host):
 
 
 def test_http_config(host):
-    http_conf_file = host.file('/etc/httpd/conf/httpd.conf')
+    http_conf_file = host.file('/etc/httpd/conf.d/gridsite.conf')
     ssl_dir = host.file('/var/cache/mod_ssl')
 
     assert http_conf_file.exists
