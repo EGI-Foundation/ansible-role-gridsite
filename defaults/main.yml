@@ -16,3 +16,12 @@ prerequisites:
 httpd_srv:
   redhat: "httpd"
   debian: "apache2"
+
+hostcert:
+  redhat: "/etc/pki/tls/certs/localhost.crt"
+
+hostkey:
+  redhat: "/etc/pki/tls/private/localhost.key"
+
+cacert:
+  redhat: "/etc/pki/tls/certs"

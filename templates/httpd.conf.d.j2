@@ -1,0 +1,49 @@
+{% if ansible_distribution_major_version == '7' %}
+# only needed for Ansible template validation
+Include conf.modules.d/*.conf
+{% endif %}
+LoadModule ssl_module		/usr/lib64/httpd/modules/mod_ssl.so
+LoadModule gridsite_module	/usr/lib64/httpd/modules/mod_gridsite.so
+
+######################################################################
+# Plain unauthenticated HTTP on ports 80 and 777
+######################################################################
+Listen 80
+Listen 777
+<VirtualHost *:80 *:777>
+<Directory "/var/www/html">
+ GridSiteIndexes	on
+ GridSiteAuth		on
+ GridSiteDNlists	/etc/grid-security/dn-lists/
+</Directory>
+</VirtualHost>
+
+######################################################################
+# Secured and possibly authenticated HTTPS on ports 443 and 488
+######################################################################
+Listen 443
+Listen 488
+SSLSessionCacheTimeout  300
+#SSLSessionCache         shm:/var/cache/mod_ssl/shm_cache
+SSLSessionCache         dbm:/var/cache/mod_ssl/scache
+
+<VirtualHost *:443 *:488>
+ 
+SSLEngine               on
+SSLCertificateFile      {{ host_certificate|default(hostcert[(ansible_os_family | lower)]) }}
+SSLCertificateKeyFile   {{ host_key|default(hostkey[(ansible_os_family | lower)]) }}
+SSLCACertificatePath    {{ ca_certificate|default(cacert[(ansible_os_family | lower)]) }}
+#SSLCARevocationPath    YOUR CRL DIRECTORY WOULD GO HERE
+SSLVerifyClient         optional
+SSLVerifyDepth          10
+SSLOptions              +ExportCertData +StdEnvVars
+
+<Directory "/var/www/html">
+ GridSiteIndexes	on
+ GridSiteAuth		on
+ GridSiteDNlists	/etc/grid-security/dn-lists/
+ GridSiteGSIProxyLimit	9
+ GridSiteMethods	GET PUT DELETE MOVE
+</Directory>
+ 
+</VirtualHost>
